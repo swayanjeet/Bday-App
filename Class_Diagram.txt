@@ -1,3 +1,12 @@
+Apps 
+- User_Handler
+- Event_Handler
+- Transaction_Handler
+- Wallet handler
+- Product Handler
+
+
+
 Classes : User
 - Email id, Bday, Friends, id, profile_pic,
 - facebook friends
