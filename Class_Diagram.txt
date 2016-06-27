@@ -1,0 +1,15 @@
+Classes : User
+- Email id, Bday, Friends, id, profile_pic,
+- facebook friends
+- search for friends who uses Bday app
+- Sort friends according to bday date after login
+- User_Profile
+- Wallet - (Monetary Transactions)
+- Events_Created by Date, Events Participated, Donations, Purchases (Likes for Further)
+- Notifications for a friend's Bday
+
+Events
+- Create an Event
+- Event id, Participators of event, Type of Event, Date of Creation, Contributer details, Date of End, Event ended or not, if ended Transaction details
+
+
