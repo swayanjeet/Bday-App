@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome| bdayapp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load bootstrap_themes %}
+        {% bootstrap_styles theme='default' %}
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static "css/bday_app.css" %}" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+{% include "navbar.html" %}  
+<div class="container">
+<div class="well well-lg">  
+<div id="products" class="row list-group">
+  <h3>{{ for_profile.name }}'s Birthday</h3>
+  <h4>Group Admin - 
+    {% if admin == user_id %}
+      You
+    {% else %}
+      {{ admin_profile.name }}
+    {% endif %}    
+  </h3>
+  {% for contributor in contributors %} 
+  <div class="item col-xs-4 col-lg-4 list-group-item">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="{{ contributor.profile.pic }}" alt="" />
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading">
+                        {{ contributor.profile.name }}</h4>
+                    <p class="group inner list-group-item-text">
+                        Contributed Amount</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}       
+  </div>        
+</div>
+</div>
+
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+ {% bootstrap_script use_min=True %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</body>
+</html>

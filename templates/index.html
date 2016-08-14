@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Hello</title>
+        {% load bootstrap_themes %}
+        {% bootstrap_styles theme='default' type='min.css' %}
+        <script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+        {% bootstrap_script use_min=True %}
+    </head>
+
+    <body>
+       <div class="container-fluid" style="padding:20px">
+       	<div class="jumbotron" align="center">
+       		<h1>Welcome to Bday App</h1>	
+       	<a href="/login/facebook" class="btn btn-info btn-lg" role="button">Login with Facebook</a>
+       	<a href="/login/google-oauth2" class="btn btn-danger btn-lg" role="button">Login with Google</a>
+       	</div>
+       </div>
+    </body>
+
+</html>

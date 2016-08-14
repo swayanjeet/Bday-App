@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome| bdayapp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load bootstrap_themes %}
+        {% bootstrap_styles theme='default' %}
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static "css/bday_app.css" %}" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+{% include "navbar.html" %}  
+<div class="container">
+<div class="well well-lg">  
+  {% if current_day.count > 0 %}
+    {% if current_day|length == 1 %}
+    <h3>{{ current_day|length }} friend has bday today ! Give him the awaited surprise</h3>
+    {% elif currennt_day|length > 1 %}
+    <h3>{{ current_day|length }} friends have bdays today ! Give them the awaited surprise</h3>
+    {% endif %}
+<div id="products" class="row list-group">
+  {% for user in current_day %} 
+  <div class="item col-xs-4 col-lg-4 grid-group-item">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="{{user.pic}}" alt="" />
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading">
+                        {{ user.name|title }}</h4>
+                    <p class="group inner list-group-item-text">
+                        is becoming {{user.age}} years old</p>
+                    <div class="row">
+                      {% if user.available == True %}
+                        <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" data-admin="{{user_id}}" data-for="{{user.user.id}}" id="create_group" data-toggle="modal" href="#create_event"></span>Create a Group</a>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" href="/view-wishlist/{{user.user.id}}">View Wishlist</a>
+                        </div>
+                        <br>
+                        <br>
+                         <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" href="/send-gift/{{user_id}}/{{user.user.id}}"></span>Send Gift</a>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" href="/send-wish/{{user_id}}/{{user.user.id}}">Send Wish</a>
+                        </div>
+                      {% else %}
+                         <div class="col-xs-12 col-md-6">
+                            <a class="btn btn-success" href="/send-wish/{{user_id}}/{{user.id}}">Send Wish</a>
+                        </div>
+                       {% endif %} 
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}    
+  </div>        
+  {% endif %}
+</div>
+  {% include "create_event.html" %}  
+</div>
+
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+ {% bootstrap_script use_min=True %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+ <script type="text/javascript">
+ var admin_id = null
+ var for_id = null
+ var friends_ids = []
+ $(document).on("click", "#create_group", function () {
+     admin_id = $(this).data('admin');
+     for_id = $(this).data('for');
+     $(".js-example-basic-multiple").select2({
+   ajax: {
+    url: '/get-friends/'+admin_id+'/'+for_id,
+    processResults: function (data) {
+      var f_data = [];
+      var f_data_el = {};
+      for (var i=0;i<data.length;i++)
+      {
+        f_data_el = {id:data[0].fields.user,text:data[0].fields.name};
+        f_data.push(f_data_el);
+      }
+      return {
+        results: f_data
+      };
+    }
+  }
+});
+     $(".js-example-basic-multiple").on("select2:select", function (e) { friends_ids.push(parseInt(e.params.data.id)); });
+     $(".js-example-basic-multiple").on("select2:unselect", function (e) {  
+      var index = friends_ids.indexOf(parseInt(e.params.data.id));
+      if (index > -1) {
+        friends_ids.splice(index, 1);
+        }
+     });
+  });
+  $(function(){
+    $('#create_grp_btn').click( function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '/events/create-event/'+admin_id+'/'+for_id, //this is the submit URL
+            type : 'GET',
+            data : {'friends[]':friends_ids},
+            success: function(data){
+                 alert(data)
+            }
+        });
+    });
+});
+ </script>
+</body>
+</html>

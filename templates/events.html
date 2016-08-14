@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Welcome| bdayapp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load bootstrap_themes %}
+        {% bootstrap_styles theme='default' %}
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static "css/bday_app.css" %}" type="text/css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+{% include "navbar.html" %}  
+<div class="container">
+<div class="well well-lg"> 
+{% if admin_in_events|length == 0 and contributor_in_events|length == 0 %}
+  <h5>No events created </h5>
+{% else %}   
+<div id="products" class="row list-group">
+  {% for event in admin_in_events %} 
+  <div class="item col-xs-4 col-lg-4 grid-group-item">
+            <div class="thumbnail">
+                <a href="/events/event-details/{{event.id}}" target="_blank"><img class="group list-group-image" src="http://media.santabanta.com/medium1/events/birthday/birthday-109a.jpg" alt="" /></a>
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading">
+                        {{ event.for_name }}'s Birthday</h4>
+                    <p class="group inner list-group-item-text">
+                        Admin-You</p>
+                </div>
+            </div>
+        </div>
+  {% endfor %}
+  {% for event in contributor_in_events %} 
+  <div class="item col-xs-4 col-lg-4 grid-group-item">
+            <div class="thumbnail">
+                <a href="/events/event-details/{{event.id}}"><img class="group list-group-image" src="http://media.santabanta.com/medium1/events/birthday/birthday-109a.jpg" alt="" /></a>
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading">
+                        {{ event.for_name }}'s Birthday</h4>
+                    <p class="group inner list-group-item-text">
+                        Contributor-You</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}        
+  </div>
+  {% endif %}        
+</div>
+</div>
+
+<script   src="https://code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+ {% bootstrap_script use_min=True %}
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</body>
+</html>
